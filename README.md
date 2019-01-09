@@ -1,2 +1,6 @@
 # Camare2-mx
-Base Camera2 from google.
+基于google原生Camare2（master分支）源码进行修改。
+
+
+
+
