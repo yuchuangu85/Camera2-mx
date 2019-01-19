@@ -1,0 +1,5 @@
+<manifest package="com.android.ex.camera2.portability"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+</manifest>
