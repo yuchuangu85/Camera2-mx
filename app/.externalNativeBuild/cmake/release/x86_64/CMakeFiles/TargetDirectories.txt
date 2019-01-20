@@ -1,0 +1,4 @@
+/Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/release/x86_64/CMakeFiles/rebuild_cache.dir
+/Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/release/x86_64/CMakeFiles/edit_cache.dir
+/Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/release/x86_64/CMakeFiles/jni_jpegutil.dir
+/Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/release/x86_64/CMakeFiles/jni_tinyplanet.dir

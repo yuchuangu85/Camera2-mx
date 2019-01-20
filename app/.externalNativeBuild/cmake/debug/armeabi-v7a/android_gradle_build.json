@@ -1,0 +1,62 @@
+{
+  "stringTable": {
+    "0": "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/debug/armeabi-v7a",
+    "1": "--target=armv7-none-linux-androideabi21 --gcc-toolchain=/Users/yuchuan/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64 -Djni_jpegutil_EXPORTS --sysroot /Users/yuchuan/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mfpu=vfpv3-d16 -fno-addrsig -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -stdlib=libc++ -std=c++11 -O0 -fno-limit-debug-info -fPIC",
+    "2": "--target=armv7-none-linux-androideabi21 --gcc-toolchain=/Users/yuchuan/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64 -Djni_tinyplanet_EXPORTS --sysroot /Users/yuchuan/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mfpu=vfpv3-d16 -fno-addrsig -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -stdlib=libc++ -std=c++11 -O0 -fno-limit-debug-info -fPIC"
+  },
+  "buildFiles": [
+    "/Users/yuchuan/AndroidSDK/ndk-bundle/build/cmake/platforms.cmake",
+    "/Users/yuchuan/AndroidSDK/ndk-bundle/build/cmake/android.toolchain.cmake",
+    "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/yuchuan/AndroidSDK/cmake/3.10.2.4988404/bin/cmake --build /Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/debug/armeabi-v7a --target clean"
+  ],
+  "libraries": {
+    "jni_tinyplanet-Debug-armeabi-v7a": {
+      "buildCommand": "/Users/yuchuan/AndroidSDK/cmake/3.10.2.4988404/bin/cmake --build /Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/debug/armeabi-v7a --target jni_tinyplanet",
+      "buildType": "debug",
+      "toolchain": "3746412869",
+      "abi": "armeabi-v7a",
+      "artifactName": "jni_tinyplanet",
+      "files": [
+        {
+          "src": "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/src/main/cpp/tinyplanet.cc",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "output": "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/build/intermediates/cmake/debug/obj/armeabi-v7a/libjni_tinyplanet.so"
+    },
+    "jni_jpegutil-Debug-armeabi-v7a": {
+      "buildCommand": "/Users/yuchuan/AndroidSDK/cmake/3.10.2.4988404/bin/cmake --build /Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/debug/armeabi-v7a --target jni_jpegutil",
+      "buildType": "debug",
+      "toolchain": "3746412869",
+      "abi": "armeabi-v7a",
+      "artifactName": "jni_jpegutil",
+      "files": [
+        {
+          "src": "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/src/main/cpp/jpegutil.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/src/main/cpp/jpegutilnative.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "output": "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/build/intermediates/cmake/debug/obj/armeabi-v7a/libjni_jpegutil.so"
+    }
+  },
+  "toolchains": {
+    "3746412869": {
+      "cppCompilerExecutable": "/Users/yuchuan/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cc",
+    "cpp"
+  ]
+}

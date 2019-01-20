@@ -1,0 +1,24 @@
+{
+  "buildFiles": [
+    "/Users/yuchuan/AndroidSDK/ndk-bundle/build/cmake/platforms.cmake",
+    "/Users/yuchuan/AndroidSDK/ndk-bundle/build/cmake/android.toolchain.cmake",
+    "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/yuchuan/AndroidSDK/cmake/3.10.2.4988404/bin/cmake --build /Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/debug/arm64-v8a --target clean"
+  ],
+  "libraries": {
+    "jni_jpegutil-Debug-arm64-v8a": {
+      "artifactName": "jni_jpegutil",
+      "buildCommand": "/Users/yuchuan/AndroidSDK/cmake/3.10.2.4988404/bin/cmake --build /Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/debug/arm64-v8a --target jni_jpegutil",
+      "abi": "arm64-v8a",
+      "output": "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/build/intermediates/cmake/debug/obj/arm64-v8a/libjni_jpegutil.so"
+    },
+    "jni_tinyplanet-Debug-arm64-v8a": {
+      "artifactName": "jni_tinyplanet",
+      "buildCommand": "/Users/yuchuan/AndroidSDK/cmake/3.10.2.4988404/bin/cmake --build /Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/debug/arm64-v8a --target jni_tinyplanet",
+      "abi": "arm64-v8a",
+      "output": "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/build/intermediates/cmake/debug/obj/arm64-v8a/libjni_tinyplanet.so"
+    }
+  }
+}

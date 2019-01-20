@@ -22,6 +22,7 @@ import android.graphics.Rect;
 
 import com.android.camera.debug.Log;
 import com.android.camera.one.v2.camera2proxy.ImageProxy;
+import com.codemx.camera2.XLog;
 import com.google.common.base.Preconditions;
 
 import java.nio.ByteBuffer;
@@ -63,34 +64,34 @@ public class JpegUtilNative {
      * multiple of 90 to rotate the image.</li>
      * </ol>
      *
-     * @param width the width of the image to compress
-     * @param height the height of the image to compress
-     * @param yBuf the buffer containing the Y component of the image
-     * @param yPStride the stride between adjacent pixels in the same row in
-     *            yBuf
-     * @param yRStride the stride between adjacent rows in yBuf
-     * @param cbBuf the buffer containing the Cb component of the image
-     * @param cbPStride the stride between adjacent pixels in the same row in
-     *            cbBuf
-     * @param cbRStride the stride between adjacent rows in cbBuf
-     * @param crBuf the buffer containing the Cr component of the image
-     * @param crPStride the stride between adjacent pixels in the same row in
-     *            crBuf
-     * @param crRStride the stride between adjacent rows in crBuf
-     * @param outBuf a direct java.nio.ByteBuffer to hold the compressed jpeg.
-     *            This must have enough capacity to store the result, or an
-     *            error code will be returned.
+     * @param width          the width of the image to compress
+     * @param height         the height of the image to compress
+     * @param yBuf           the buffer containing the Y component of the image
+     * @param yPStride       the stride between adjacent pixels in the same row in
+     *                       yBuf
+     * @param yRStride       the stride between adjacent rows in yBuf
+     * @param cbBuf          the buffer containing the Cb component of the image
+     * @param cbPStride      the stride between adjacent pixels in the same row in
+     *                       cbBuf
+     * @param cbRStride      the stride between adjacent rows in cbBuf
+     * @param crBuf          the buffer containing the Cr component of the image
+     * @param crPStride      the stride between adjacent pixels in the same row in
+     *                       crBuf
+     * @param crRStride      the stride between adjacent rows in crBuf
+     * @param outBuf         a direct java.nio.ByteBuffer to hold the compressed jpeg.
+     *                       This must have enough capacity to store the result, or an
+     *                       error code will be returned.
      * @param outBufCapacity the capacity of outBuf
-     * @param quality the jpeg-quality (1-100) to use
-     * @param cropLeft left-edge of the bounds of the image to crop to before
-     *            rotation
-     * @param cropTop top-edge of the bounds of the image to crop to before
-     *            rotation
-     * @param cropRight right-edge of the bounds of the image to crop to before
-     *            rotation
-     * @param cropBottom bottom-edge of the bounds of the image to crop to
-     *            before rotation
-     * @param rot90 the multiple of 90 to rotate the image CCW (after cropping)
+     * @param quality        the jpeg-quality (1-100) to use
+     * @param cropLeft       left-edge of the bounds of the image to crop to before
+     *                       rotation
+     * @param cropTop        top-edge of the bounds of the image to crop to before
+     *                       rotation
+     * @param cropRight      right-edge of the bounds of the image to crop to before
+     *                       rotation
+     * @param cropBottom     bottom-edge of the bounds of the image to crop to
+     *                       before rotation
+     * @param rot90          the multiple of 90 to rotate the image CCW (after cropping)
      */
     private static native int compressJpegFromYUV420pNative(
             int width, int height,
@@ -106,18 +107,18 @@ public class JpegUtilNative {
      * Copies the Image.Plane specified by planeBuf, pStride, and rStride to the
      * Bitmap.
      *
-     * @param width the width of the image
-     * @param height the height of the image
-     * @param planeBuf the native ByteBuffer containing the image plane data
-     * @param pStride the stride between adjacent pixels in the same row of
-     *            planeBuf
-     * @param rStride the stride between adjacent rows in planeBuf
+     * @param width     the width of the image
+     * @param height    the height of the image
+     * @param planeBuf  the native ByteBuffer containing the image plane data
+     * @param pStride   the stride between adjacent pixels in the same row of
+     *                  planeBuf
+     * @param rStride   the stride between adjacent rows in planeBuf
      * @param outBitmap the output bitmap object
-     * @param rot90 the multiple of 90 degrees to rotate counterclockwise, one
-     *            of {0, 1, 2, 3}.
+     * @param rot90     the multiple of 90 degrees to rotate counterclockwise, one
+     *                  of {0, 1, 2, 3}.
      */
     private static native void copyImagePlaneToBitmap(int width, int height, Object planeBuf,
-            int pStride, int rStride, Object outBitmap, int rot90);
+                                                      int pStride, int rStride, Object outBitmap, int rot90);
 
     public static void copyImagePlaneToBitmap(ImageProxy.Plane plane, Bitmap bitmap, int rot90) {
         if (bitmap.getConfig() != Bitmap.Config.ALPHA_8) {
@@ -133,8 +134,8 @@ public class JpegUtilNative {
 
     /**
      * @see JpegUtilNative#compressJpegFromYUV420pNative(int, int, Object, int,
-     *      int, Object, int, int, Object, int, int, Object, int, int, int, int,
-     *      int, int, int)
+     * int, Object, int, int, Object, int, int, Object, int, int, int, int,
+     * int, int, int)
      */
     public static int compressJpegFromYUV420p(
             int width, int height,
@@ -165,9 +166,10 @@ public class JpegUtilNative {
      * ImageFormat.YUV_420_888 is currently supported. Furthermore, all planes
      * must use direct byte buffers.
      *
-     * @param img the image to compress
-     * @param outBuf a direct byte buffer to hold the output jpeg.
+     * @param img     the image to compress
+     * @param outBuf  a direct byte buffer to hold the output jpeg.
      * @param quality the jpeg encoder quality (0 to 100)
+     *
      * @return The number of bytes written to outBuf
      */
     public static int compressJpegFromYUV420Image(ImageProxy img, ByteBuffer outBuf, int quality) {
@@ -179,14 +181,15 @@ public class JpegUtilNative {
      * ImageFormat.YUV_420_888 is currently supported. Furthermore, all planes
      * must use direct byte buffers.<br>
      *
-     * @param img the image to compress
-     * @param outBuf a direct byte buffer to hold the output jpeg.
+     * @param img     the image to compress
+     * @param outBuf  a direct byte buffer to hold the output jpeg.
      * @param quality the jpeg encoder quality (0 to 100)
      * @param degrees the amount to rotate the image clockwise, in degrees.
+     *
      * @return The number of bytes written to outBuf
      */
     public static int compressJpegFromYUV420Image(ImageProxy img, ByteBuffer outBuf, int quality,
-            int degrees) {
+                                                  int degrees) {
         return compressJpegFromYUV420Image(img, outBuf, quality, new Rect(0, 0, img.getWidth(),
                 img.getHeight()), degrees);
     }
@@ -196,19 +199,20 @@ public class JpegUtilNative {
      * ImageFormat.YUV_420_888 is currently supported. Furthermore, all planes
      * must use direct byte buffers.
      *
-     * @param img the image to compress
-     * @param outBuf a direct byte buffer to hold the output jpeg.
+     * @param img     the image to compress
+     * @param outBuf  a direct byte buffer to hold the output jpeg.
      * @param quality the jpeg encoder quality (0 to 100)
-     * @param crop The crop rectangle to apply *before* rotation.
+     * @param crop    The crop rectangle to apply *before* rotation.
      * @param degrees The number of degrees to rotate the image *after*
-     *            cropping. This must be a multiple of 90. Note that this
-     *            represents a clockwise rotation in the space of the image
-     *            plane, which appears as a counter-clockwise rotation when the
-     *            image is displayed in raster-order.
+     *                cropping. This must be a multiple of 90. Note that this
+     *                represents a clockwise rotation in the space of the image
+     *                plane, which appears as a counter-clockwise rotation when the
+     *                image is displayed in raster-order.
+     *
      * @return The number of bytes written to outBuf
      */
     public static int compressJpegFromYUV420Image(ImageProxy img, ByteBuffer outBuf, int quality,
-            Rect crop, int degrees) {
+                                                  Rect crop, int degrees) {
         Preconditions.checkState((degrees % 90) == 0, "Rotation must be a multiple of 90 degrees," +
                 " was " + degrees);
         // Handle negative angles by converting to positive.
@@ -243,23 +247,23 @@ public class JpegUtilNative {
         int cropLeft = crop.left;
         cropLeft = Math.max(cropLeft, 0);
         cropLeft = Math.min(cropLeft, img.getWidth() - 1);
-
+        XLog.e(XLog.TAG_GU, XLog.getTag() + cropLeft);
         int cropRight = crop.right;
         cropRight = Math.max(cropRight, 0);
         cropRight = Math.min(cropRight, img.getWidth());
-
+        XLog.e(XLog.TAG_GU, XLog.getTag() + cropRight);
         int cropTop = crop.top;
         cropTop = Math.max(cropTop, 0);
         cropTop = Math.min(cropTop, img.getHeight() - 1);
-
+        XLog.e(XLog.TAG_GU, XLog.getTag() + cropTop);
         int cropBot = crop.bottom;
         cropBot = Math.max(cropBot, 0);
         cropBot = Math.min(cropBot, img.getHeight());
-
+        XLog.e(XLog.TAG_GU, XLog.getTag() + cropBot);
         degrees = degrees % 360;
         // Convert from clockwise to counter-clockwise.
         int rot90 = (360 - degrees) / 90;
-
+        XLog.e(XLog.TAG_GU, XLog.getTag() + rot90);
         int numBytesWritten = compressJpegFromYUV420p(
                 img.getWidth(), img.getHeight(),
                 planeBuf[0], pixelStride[0], rowStride[0],
@@ -268,6 +272,8 @@ public class JpegUtilNative {
                 outBuf, quality, cropLeft, cropTop, cropRight, cropBot,
                 rot90);
 
+        // TODO 返回-1，存在问题，需要修改
+        XLog.e(XLog.TAG_GU, XLog.getTag() + numBytesWritten);
         outBuf.limit(numBytesWritten);
 
         return numBytesWritten;
