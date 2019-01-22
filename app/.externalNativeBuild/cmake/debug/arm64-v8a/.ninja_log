@@ -1,3 +1,3 @@
 # ninja log v5
-0	390	1547997293	CMakeFiles/jni_tinyplanet.dir/tinyplanet.cc.o	3c117a50088bd176
-392	471	1547997293	/Users/yuchuan/CodeMX/Github/Camera2-mx/app/build/intermediates/cmake/debug/obj/arm64-v8a/libjni_tinyplanet.so	a648ace35bfd272e
+0	331	1548081807	CMakeFiles/jni_tinyplanet.dir/src/main/cpp/tinyplanet.cc.o	3de07eff73b3bfe9
+332	410	1548081807	../../../../build/intermediates/cmake/debug/obj/arm64-v8a/libjni_tinyplanet.so	541b2c4b26ca6480

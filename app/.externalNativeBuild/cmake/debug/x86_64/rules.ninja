@@ -61,7 +61,7 @@ rule CXX_SHARED_LIBRARY_LINKER__jni_tinyplanet
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /Users/yuchuan/AndroidSDK/cmake/3.10.2.4988404/bin/cmake -H/Users/yuchuan/CodeMX/Github/Camera2-mx/app/src/main/cpp -B/Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/debug/x86_64
+  command = /Users/yuchuan/AndroidSDK/cmake/3.10.2.4988404/bin/cmake -H/Users/yuchuan/CodeMX/Github/Camera2-mx/app -B/Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/debug/x86_64
   description = Re-running CMake...
   generator = 1
 

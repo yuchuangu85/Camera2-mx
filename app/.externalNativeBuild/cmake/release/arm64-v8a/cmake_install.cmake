@@ -1,4 +1,4 @@
-# Install script for directory: /Users/yuchuan/CodeMX/Github/Camera2-mx/app/src/main/cpp
+# Install script for directory: /Users/yuchuan/CodeMX/Github/Camera2-mx/app
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

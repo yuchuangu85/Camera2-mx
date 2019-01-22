@@ -1,8 +1,8 @@
 {
   "buildFiles": [
-    "/Users/yuchuan/AndroidSDK/ndk-bundle/build/cmake/platforms.cmake",
-    "/Users/yuchuan/AndroidSDK/ndk-bundle/build/cmake/android.toolchain.cmake",
-    "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/src/main/cpp/CMakeLists.txt"
+    "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/../../../../AndroidSDK/ndk-bundle/build/cmake/platforms.cmake",
+    "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/CMakeLists.txt",
+    "/Users/yuchuan/CodeMX/Github/Camera2-mx/app/../../../../AndroidSDK/ndk-bundle/build/cmake/android.toolchain.cmake"
   ],
   "cleanCommands": [
     "/Users/yuchuan/AndroidSDK/cmake/3.10.2.4988404/bin/cmake --build /Users/yuchuan/CodeMX/Github/Camera2-mx/app/.externalNativeBuild/cmake/release/arm64-v8a --target clean"

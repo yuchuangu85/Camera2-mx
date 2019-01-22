@@ -757,8 +757,7 @@ public class OneCameraImpl extends AbstractOneCamera {
      * @param capture the in-flight capture which needs to contain the received
      * image and capture data
      */
-    private void onCaptureCompleted(InFlightCapture capture) {
-
+    private void onCaptureCompleted(final InFlightCapture capture) {
         // Experimental support for writing RAW. We do not have a usable JPEG
         // here, so we don't use the usual capture session mechanism and instead
         // just store the RAW file in its own directory.

@@ -27,6 +27,7 @@ import com.google.common.base.Preconditions;
 
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Provides direct access to libjpeg-turbo via the NDK.
@@ -144,21 +145,23 @@ public class JpegUtilNative {
             ByteBuffer crBuf, int crPStride, int crRStride,
             ByteBuffer outBuf, int quality,
             int cropLeft, int cropTop, int cropRight, int cropBottom, int rot90) {
-        Log.i(TAG, String.format(
+        Log.i(TAG, String.format(Locale.getDefault(),
                 "Compressing jpeg with size = (%d, %d); " +
-                        "y-channel pixel stride = %d; " +
-                        "y-channel row stride =  %d; " +
-                        "cb-channel pixel stride = %d; " +
-                        "cb-channel row stride =  %d; " +
-                        "cr-channel pixel stride = %d; " +
-                        "cr-channel row stride =  %d; " +
-                        "crop = [(%d, %d) - (%d, %d)]; " +
-                        "rotation = %d * 90 deg. ",
+                        "\n y-channel pixel stride = %d; " +
+                        "\n y-channel row stride =  %d; " +
+                        "\n cb-channel pixel stride = %d; " +
+                        "\n cb-channel row stride =  %d; " +
+                        "\n cr-channel pixel stride = %d; " +
+                        "\n cr-channel row stride =  %d; " +
+                        "\n crop = [(%d, %d) - (%d, %d)]; " +
+                        "\n rotation = %d * 90 deg. ",
                 width, height, yPStride, yRStride, cbPStride, cbRStride, crPStride, crRStride,
                 cropLeft, cropTop, cropRight, cropBottom, rot90));
-        return compressJpegFromYUV420pNative(width, height, yBuf, yPStride, yRStride, cbBuf,
+        int compress = compressJpegFromYUV420pNative(width, height, yBuf, yPStride, yRStride, cbBuf,
                 cbPStride, cbRStride, crBuf, crPStride, crRStride, outBuf, outBuf.capacity(),
                 quality, cropLeft, cropTop, cropRight, cropBottom, rot90);
+        XLog.e(XLog.getTag(),XLog.TAG_GU + compress);
+        return compress;
     }
 
     /**
@@ -213,8 +216,8 @@ public class JpegUtilNative {
      */
     public static int compressJpegFromYUV420Image(ImageProxy img, ByteBuffer outBuf, int quality,
                                                   Rect crop, int degrees) {
-        Preconditions.checkState((degrees % 90) == 0, "Rotation must be a multiple of 90 degrees," +
-                " was " + degrees);
+        Preconditions.checkState((degrees % 90) == 0,
+                "Rotation must be a multiple of 90 degrees, was " + degrees);
         // Handle negative angles by converting to positive.
         degrees = ((degrees % 360) + (360 * 2)) % 360;
         Preconditions.checkState(outBuf.isDirect(), "Output buffer must be direct");
@@ -248,22 +251,27 @@ public class JpegUtilNative {
         cropLeft = Math.max(cropLeft, 0);
         cropLeft = Math.min(cropLeft, img.getWidth() - 1);
         XLog.e(XLog.TAG_GU, XLog.getTag() + cropLeft);
+
         int cropRight = crop.right;
         cropRight = Math.max(cropRight, 0);
         cropRight = Math.min(cropRight, img.getWidth());
         XLog.e(XLog.TAG_GU, XLog.getTag() + cropRight);
+
         int cropTop = crop.top;
         cropTop = Math.max(cropTop, 0);
         cropTop = Math.min(cropTop, img.getHeight() - 1);
         XLog.e(XLog.TAG_GU, XLog.getTag() + cropTop);
+
         int cropBot = crop.bottom;
         cropBot = Math.max(cropBot, 0);
         cropBot = Math.min(cropBot, img.getHeight());
         XLog.e(XLog.TAG_GU, XLog.getTag() + cropBot);
+
         degrees = degrees % 360;
-        // Convert from clockwise to counter-clockwise.
+        // Convert from clockwise(顺时针) to counter-clockwise(逆时针).
         int rot90 = (360 - degrees) / 90;
         XLog.e(XLog.TAG_GU, XLog.getTag() + rot90);
+
         int numBytesWritten = compressJpegFromYUV420p(
                 img.getWidth(), img.getHeight(),
                 planeBuf[0], pixelStride[0], rowStride[0],

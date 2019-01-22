@@ -16,7 +16,6 @@
 package com.android.ex.camera2.blocking;
 
 import android.hardware.camera2.CameraDevice;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 

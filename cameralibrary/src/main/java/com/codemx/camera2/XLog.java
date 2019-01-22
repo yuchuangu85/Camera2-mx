@@ -1,4 +1,4 @@
-package com.android.mxlibrary.util;
+package com.codemx.camera2;
 
 import android.util.Log;
 
