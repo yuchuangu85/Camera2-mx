@@ -26,6 +26,7 @@ import com.android.camera.stats.profiler.Profile;
 import com.android.camera.stats.profiler.Profilers;
 import com.android.camera.util.AndroidContext;
 import com.android.camera.util.AndroidServices;
+import com.tencent.bugly.crashreport.CrashReport;
 
 
 /**
@@ -46,6 +47,7 @@ public class CameraApp extends Application {
     public void onCreate() {
         super.onCreate();
 
+
         if (WAIT_FOR_DEBUGGER_ON_START) {
             Debug.waitForDebugger();
         }
@@ -53,6 +55,7 @@ public class CameraApp extends Application {
         // Android context must be the first item initialized.
         Context context = getApplicationContext();
         AndroidContext.initialize(context);
+        CrashReport.initCrashReport(context, "de81f14a47", true);
 
         // This will measure and write to the exception handler if
         // the time between any two calls or the total time from

@@ -48,7 +48,8 @@ import javax.annotation.Nonnull;
 public class Storage {
     public static final String DCIM =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString();
-    public static final String DIRECTORY = DCIM + "/Camera2";
+    public static final String SD = Environment.getExternalStorageDirectory().getAbsolutePath();
+    public static final String DIRECTORY = DCIM + "/Camera";
     public static final File DIRECTORY_FILE = new File(DIRECTORY);
     public static final String JPEG_POSTFIX = ".jpg";
     public static final String GIF_POSTFIX = ".gif";
@@ -76,24 +77,24 @@ public class Storage {
     /**
      * Save the image with default JPEG MIME type and add it to the MediaStore.
      *
-     * @param resolver The The content resolver to use.
-     * @param title The title of the media file.
-     * @param date The date for the media file.
-     * @param location The location of the media file.
+     * @param resolver    The The content resolver to use.
+     * @param title       The title of the media file.
+     * @param date        The date for the media file.
+     * @param location    The location of the media file.
      * @param orientation The orientation of the media file.
-     * @param exif The EXIF info. Can be {@code null}.
-     * @param jpeg The JPEG data.
-     * @param width The width of the media file after the orientation is
-     *              applied.
-     * @param height The height of the media file after the orientation is
-     *               applied.
+     * @param exif        The EXIF info. Can be {@code null}.
+     * @param jpeg        The JPEG data.
+     * @param width       The width of the media file after the orientation is
+     *                    applied.
+     * @param height      The height of the media file after the orientation is
+     *                    applied.
      */
     public static Uri addImage(ContentResolver resolver, String title, long date,
-            Location location, int orientation, ExifInterface exif, byte[] jpeg, int width,
-            int height) throws IOException {
+                               Location location, int orientation, ExifInterface exif, byte[] jpeg, int width,
+                               int height) throws IOException {
 
         return addImage(resolver, title, date, location, orientation, exif, jpeg, width, height,
-              FilmstripItemData.MIME_TYPE_JPEG);
+                FilmstripItemData.MIME_TYPE_JPEG);
     }
 
     /**
@@ -102,24 +103,25 @@ public class Storage {
      * The path will be automatically generated according to the title.
      * </p>
      *
-     * @param resolver The The content resolver to use.
-     * @param title The title of the media file.
-     * @param data The data to save.
-     * @param date The date for the media file.
-     * @param location The location of the media file.
+     * @param resolver    The The content resolver to use.
+     * @param title       The title of the media file.
+     * @param data        The data to save.
+     * @param date        The date for the media file.
+     * @param location    The location of the media file.
      * @param orientation The orientation of the media file.
-     * @param exif The EXIF info. Can be {@code null}.
-     * @param width The width of the media file after the orientation is
-     *            applied.
-     * @param height The height of the media file after the orientation is
-     *            applied.
-     * @param mimeType The MIME type of the data.
+     * @param exif        The EXIF info. Can be {@code null}.
+     * @param width       The width of the media file after the orientation is
+     *                    applied.
+     * @param height      The height of the media file after the orientation is
+     *                    applied.
+     * @param mimeType    The MIME type of the data.
+     *
      * @return The URI of the added image, or null if the image could not be
-     *         added.
+     * added.
      */
     public static Uri addImage(ContentResolver resolver, String title, long date,
-            Location location, int orientation, ExifInterface exif, byte[] data, int width,
-            int height, String mimeType) throws IOException {
+                               Location location, int orientation, ExifInterface exif, byte[] data, int width,
+                               int height, String mimeType) throws IOException {
 
         String path = generateFilepath(title, mimeType);
         long fileLength = writeFile(path, data, exif);
@@ -133,22 +135,23 @@ public class Storage {
     /**
      * Add the entry for the media file to media store.
      *
-     * @param resolver The The content resolver to use.
-     * @param title The title of the media file.
-     * @param date The date for the media file.
-     * @param location The location of the media file.
+     * @param resolver    The The content resolver to use.
+     * @param title       The title of the media file.
+     * @param date        The date for the media file.
+     * @param location    The location of the media file.
      * @param orientation The orientation of the media file.
-     * @param width The width of the media file after the orientation is
-     *            applied.
-     * @param height The height of the media file after the orientation is
-     *            applied.
-     * @param mimeType The MIME type of the data.
+     * @param width       The width of the media file after the orientation is
+     *                    applied.
+     * @param height      The height of the media file after the orientation is
+     *                    applied.
+     * @param mimeType    The MIME type of the data.
+     *
      * @return The content URI of the inserted media file or null, if the image
-     *         could not be added.
+     * could not be added.
      */
     public static Uri addImageToMediaStore(ContentResolver resolver, String title, long date,
-            Location location, int orientation, long jpegLength, String path, int width, int height,
-            String mimeType) {
+                                           Location location, int orientation, long jpegLength, String path, int width, int height,
+                                           String mimeType) {
         // Insert into MediaStore.
         ContentValues values =
                 getContentValuesForData(title, date, location, orientation, jpegLength, path, width,
@@ -157,7 +160,7 @@ public class Storage {
         Uri uri = null;
         try {
             uri = resolver.insert(Images.Media.EXTERNAL_CONTENT_URI, values);
-        } catch (Throwable th)  {
+        } catch (Throwable th) {
             // This can happen when the external volume is already mounted, but
             // MediaScanner has not notify MediaProvider to add that volume.
             // The picture is still safe and MediaScanner will find it and
@@ -170,8 +173,8 @@ public class Storage {
 
     // Get a ContentValues object for the given photo data
     public static ContentValues getContentValuesForData(String title,
-            long date, Location location, int orientation, long jpegLength,
-            String path, int width, int height, String mimeType) {
+                                                        long date, Location location, int orientation, long jpegLength,
+                                                        String path, int width, int height, String mimeType) {
 
         File file = new File(path);
         long dateModifiedSeconds = TimeUnit.MILLISECONDS.toSeconds(file.lastModified());
@@ -200,6 +203,7 @@ public class Storage {
      * Add a placeholder for a new image that does not exist yet.
      *
      * @param placeholder the placeholder image
+     *
      * @return A new URI used to reference this placeholder
      */
     public static Uri addPlaceholder(Bitmap placeholder) {
@@ -220,9 +224,10 @@ public class Storage {
     /**
      * Add or replace placeholder for a new image that does not exist yet.
      *
-     * @param uri the uri of the placeholder to replace, or null if this is a
-     *            new one
+     * @param uri         the uri of the placeholder to replace, or null if this is a
+     *                    new one
      * @param placeholder the placeholder image
+     *
      * @return A URI used to reference this placeholder
      */
     public static void replacePlaceholder(Uri uri, Bitmap placeholder) {
@@ -238,6 +243,7 @@ public class Storage {
      * Creates an empty placeholder.
      *
      * @param size the size of the placeholder in pixels.
+     *
      * @return A new URI used to reference this placeholder
      */
     @Nonnull
@@ -253,22 +259,24 @@ public class Storage {
     /**
      * Take jpeg bytes and add them to the media store, either replacing an existing item
      * or a placeholder uri to replace
-     * @param imageUri The content uri or session uri of the image being updated
-     * @param resolver The content resolver to use
-     * @param title of the image
-     * @param date of the image
-     * @param location of the image
+     *
+     * @param imageUri    The content uri or session uri of the image being updated
+     * @param resolver    The content resolver to use
+     * @param title       of the image
+     * @param date        of the image
+     * @param location    of the image
      * @param orientation of the image
-     * @param exif of the image
-     * @param jpeg bytes of the image
-     * @param width of the image
-     * @param height of the image
-     * @param mimeType of the image
+     * @param exif        of the image
+     * @param jpeg        bytes of the image
+     * @param width       of the image
+     * @param height      of the image
+     * @param mimeType    of the image
+     *
      * @return The content uri of the newly inserted or replaced item.
      */
     public static Uri updateImage(Uri imageUri, ContentResolver resolver, String title, long date,
-           Location location, int orientation, ExifInterface exif,
-           byte[] jpeg, int width, int height, String mimeType) throws IOException {
+                                  Location location, int orientation, ExifInterface exif,
+                                  byte[] jpeg, int width, int height, String mimeType) throws IOException {
         String path = generateFilepath(title, mimeType);
         writeFile(path, jpeg, exif);
         return updateImage(imageUri, resolver, title, date, location, orientation, jpeg.length, path,
@@ -306,9 +314,9 @@ public class Storage {
             return -1;
         }
         if (exif != null) {
-                exif.writeExif(jpeg, path);
-                File f = new File(path);
-                return f.length();
+            exif.writeExif(jpeg, path);
+            File f = new File(path);
+            return f.length();
         } else {
             return writeFile(path, jpeg);
         }
@@ -317,12 +325,13 @@ public class Storage {
 
     /**
      * Renames a file.
-     *
+     * <p>
      * <p/>
      * Can only be used for regular files, not directories.
      *
-     * @param inputPath the original path of the file
+     * @param inputPath   the original path of the file
      * @param newFilePath the new path of the file
+     *
      * @return false if rename was not successful
      */
     public static boolean renameFile(File inputPath, File newFilePath) {
@@ -373,9 +382,10 @@ public class Storage {
      * that it is created.
      *
      * @param filePath the absolute path of a file, e.g. '/foo/bar/file.jpg'.
+     *
      * @return Whether the directory exists. If 'false' is returned, this file
-     *         cannot be written to since the parent directory could not be
-     *         created.
+     * cannot be written to since the parent directory could not be
+     * created.
      */
     private static boolean createDirectoryIfNeeded(String filePath) {
         File parentFile = new File(filePath).getParentFile();
@@ -391,10 +401,12 @@ public class Storage {
         return parentFile.mkdirs();
     }
 
-    /** Updates the image values in MediaStore. */
+    /**
+     * Updates the image values in MediaStore.
+     */
     private static Uri updateImage(Uri imageUri, ContentResolver resolver, String title,
-            long date, Location location, int orientation, int jpegLength,
-            String path, int width, int height, String mimeType) {
+                                   long date, Location location, int orientation, int jpegLength,
+                                   String path, int width, int height, String mimeType) {
 
         ContentValues values =
                 getContentValuesForData(title, date, location, orientation, jpegLength, path,
@@ -435,6 +447,7 @@ public class Storage {
      * Returns the jpeg bytes for a placeholder session
      *
      * @param uri the session uri to look up
+     *
      * @return The bitmap or null
      */
     public static Optional<Bitmap> getPlaceholderForSession(Uri uri) {
@@ -443,7 +456,7 @@ public class Storage {
 
     /**
      * @return Whether a placeholder size for the session with the given URI
-     *         exists.
+     * exists.
      */
     public static boolean containsPlaceholderSize(Uri uri) {
         return sSessionsToSizes.containsKey(uri);
@@ -453,6 +466,7 @@ public class Storage {
      * Returns the dimensions of the placeholder image
      *
      * @param uri the session uri to look up
+     *
      * @return The size
      */
     public static Point getSizeForSession(Uri uri) {
@@ -463,6 +477,7 @@ public class Storage {
      * Takes a session URI and returns the finished image's content URI
      *
      * @param uri the uri of the session that was replaced
+     *
      * @return The uri of the new media item, if it exists, or null.
      */
     public static Uri getContentUriForSessionUri(Uri uri) {
@@ -473,6 +488,7 @@ public class Storage {
      * Takes a content URI and returns the original Session Uri if any
      *
      * @param contentUri the uri of the media store content
+     *
      * @return The session uri of the original session, if it exists, or null.
      */
     public static Uri getSessionUriFromContentUri(Uri contentUri) {
@@ -483,6 +499,7 @@ public class Storage {
      * Determines if a URI points to a camera session
      *
      * @param uri the uri to check
+     *
      * @return true if it is a session uri.
      */
     public static boolean isSessionUri(Uri uri) {
@@ -507,7 +524,7 @@ public class Storage {
 
         try {
             StatFs stat = new StatFs(DIRECTORY);
-            return stat.getAvailableBlocks() * (long) stat.getBlockSize();
+            return stat.getAvailableBlocksLong() * stat.getBlockSizeLong();
         } catch (Exception e) {
             Log.i(TAG, "Fail to access external storage", e);
         }

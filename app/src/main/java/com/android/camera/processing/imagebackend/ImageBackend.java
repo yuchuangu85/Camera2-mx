@@ -25,6 +25,7 @@ import com.android.camera.processing.memory.ByteBufferDirectPool;
 import com.android.camera.processing.memory.LruResourcePool;
 import com.android.camera.session.CaptureSession;
 import com.android.camera.util.Size;
+import com.codemx.camera2.XLog;
 import com.google.common.base.Optional;
 
 import java.nio.ByteBuffer;
@@ -164,18 +165,18 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
     /**
      * Direct Injection Constructor for Testing purposes.
      *
-     * @param fastService Service where Tasks of FAST Priority are placed.
-     * @param averageService Service where Tasks of AVERAGE Priority are placed.
-     * @param slowService Service where Tasks of SLOW Priority are placed.
+     * @param fastService                 Service where Tasks of FAST Priority are placed.
+     * @param averageService              Service where Tasks of AVERAGE Priority are placed.
+     * @param slowService                 Service where Tasks of SLOW Priority are placed.
      * @param imageProcessorProxyListener iamge proxy listener to be used
      */
     public ImageBackend(ExecutorService fastService,
-            ExecutorService averageService,
-            ExecutorService slowService,
-            LruResourcePool<Integer, ByteBuffer> byteBufferDirectPool,
-            ImageProcessorProxyListener imageProcessorProxyListener,
-            ProcessingTaskConsumer processingTaskConsumer,
-            int tinyThumbnailSize) {
+                        ExecutorService averageService,
+                        ExecutorService slowService,
+                        LruResourcePool<Integer, ByteBuffer> byteBufferDirectPool,
+                        ImageProcessorProxyListener imageProcessorProxyListener,
+                        ProcessingTaskConsumer processingTaskConsumer,
+                        int tinyThumbnailSize) {
         mThreadPoolFast = fastService;
         mThreadPoolAverage = averageService;
         mThreadPoolSlow = slowService;
@@ -225,7 +226,7 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * and/or being processed.
      *
      * @return The number of receiveImage calls that are currently enqueued
-     *         and/or being processed
+     * and/or being processed
      */
     @Override
     public int getNumberOfOutstandingCalls() {
@@ -241,10 +242,10 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * unblocking the caller. Should ONLY be called by the tasks running on this
      * class.
      *
-     * @param img the image to be released by the task.
+     * @param img      the image to be released by the task.
      * @param executor the executor on which the image close is run. if null,
-     *            image close is run by the calling thread (usually the main
-     *            task thread).
+     *                 image close is run by the calling thread (usually the main
+     *                 task thread).
      */
     @Override
     public void releaseSemaphoreReference(final ImageToProcess img, Executor executor) {
@@ -295,6 +296,7 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * releaseSemaphoreReference call).
      *
      * @param tasks The set of tasks to be run
+     *
      * @return whether tasks are successfully submitted.
      */
     @Override
@@ -320,6 +322,7 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * Spawns a single dependent task from internal implementation of a task.
      *
      * @param task The task to be run
+     *
      * @return whether tasks are successfully submitted.
      */
     @Override
@@ -333,48 +336,50 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * Implements that top-level image single task submission that is defined by
      * the ImageConsumer interface w/o Runnable to executed.
      *
-     * @param img Image required by the task
-     * @param task Task to be run
+     * @param img                    Image required by the task
+     * @param task                   Task to be run
      * @param blockUntilImageRelease If true, call blocks until the object img
-     *            is no longer referred by any task. If false, call is
-     *            non-blocking
-     * @param closeOnImageRelease If true, images is closed when the object img
-     *            is is no longer referred by any task. If false, After an image
-     *            is submitted, it should never be submitted again to the
-     *            interface until all tasks and their spawned tasks are
-     *            finished.
+     *                               is no longer referred by any task. If false, call is
+     *                               non-blocking
+     * @param closeOnImageRelease    If true, images is closed when the object img
+     *                               is is no longer referred by any task. If false, After an image
+     *                               is submitted, it should never be submitted again to the
+     *                               interface until all tasks and their spawned tasks are
+     *                               finished.
+     *
      * @return whether jobs were enqueued to the ImageBackend.
      */
     @Override
     public boolean receiveImage(ImageToProcess img, TaskImageContainer task,
-            boolean blockUntilImageRelease, boolean closeOnImageRelease)
+                                boolean blockUntilImageRelease, boolean closeOnImageRelease)
             throws InterruptedException {
         return receiveImage(img, task, blockUntilImageRelease, closeOnImageRelease,
-                Optional.<Runnable> absent());
+                Optional.<Runnable>absent());
     }
 
     /**
      * Implements that top-level image single task submission that is defined by
      * the ImageConsumer interface.
      *
-     * @param img Image required by the task
-     * @param task Task to be run
+     * @param img                    Image required by the task
+     * @param task                   Task to be run
      * @param blockUntilImageRelease If true, call blocks until the object img
-     *            is no longer referred by any task. If false, call is
-     *            non-blocking
-     * @param closeOnImageRelease If true, images is closed when the object img
-     *            is is no longer referred by any task. If false, After an image
-     *            is submitted, it should never be submitted again to the
-     *            interface until all tasks and their spawned tasks are
-     *            finished.
-     * @param runnableWhenDone Optional runnable to be executed when the set of
-     *            tasks are done.
+     *                               is no longer referred by any task. If false, call is
+     *                               non-blocking
+     * @param closeOnImageRelease    If true, images is closed when the object img
+     *                               is is no longer referred by any task. If false, After an image
+     *                               is submitted, it should never be submitted again to the
+     *                               interface until all tasks and their spawned tasks are
+     *                               finished.
+     * @param runnableWhenDone       Optional runnable to be executed when the set of
+     *                               tasks are done.
+     *
      * @return whether jobs were enqueued to the ImageBackend.
      */
     @Override
     public boolean receiveImage(ImageToProcess img, TaskImageContainer task,
-            boolean blockUntilImageRelease, boolean closeOnImageRelease,
-            Optional<Runnable> runnableWhenDone)
+                                boolean blockUntilImageRelease, boolean closeOnImageRelease,
+                                Optional<Runnable> runnableWhenDone)
             throws InterruptedException {
         Set<TaskImageContainer> passTasks = new HashSet<TaskImageContainer>(1);
         passTasks.add(task);
@@ -403,27 +408,29 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * Implements that top-level image single task submission that is defined by
      * the ImageConsumer interface.
      *
-     * @param img Image required by the task
-     * @param tasks A set of Tasks to be run
+     * @param img                    Image required by the task
+     * @param tasks                  A set of Tasks to be run
      * @param blockUntilImageRelease If true, call blocks until the object img
-     *            is no longer referred by any task. If false, call is
-     *            non-blocking
-     * @param closeOnImageRelease If true, images is closed when the object img
-     *            is is no longer referred by any task. If false, After an image
-     *            is submitted, it should never be submitted again to the
-     *            interface until all tasks and their spawned tasks are
-     *            finished.
-     * @param runnableWhenDone Optional runnable to be executed when the set of
-     *            tasks are done.
+     *                               is no longer referred by any task. If false, call is
+     *                               non-blocking
+     * @param closeOnImageRelease    If true, images is closed when the object img
+     *                               is is no longer referred by any task. If false, After an image
+     *                               is submitted, it should never be submitted again to the
+     *                               interface until all tasks and their spawned tasks are
+     *                               finished.
+     * @param runnableWhenDone       Optional runnable to be executed when the set of
+     *                               tasks are done.
+     *
      * @return whether receiveImage succeeded. Generally, only happens when the
-     *         image reference is null or the task set is empty.
+     * image reference is null or the task set is empty.
+     *
      * @throws InterruptedException occurs when call is set to be blocking and
-     *             is interrupted.
+     *                              is interrupted.
      */
     @Override
     public boolean receiveImage(ImageToProcess img, Set<TaskImageContainer> tasks,
-            boolean blockUntilImageRelease, boolean closeOnImageRelease,
-            Optional<Runnable> runnableWhenDone)
+                                boolean blockUntilImageRelease, boolean closeOnImageRelease,
+                                Optional<Runnable> runnableWhenDone)
             throws InterruptedException {
 
         // Short circuit if no tasks submitted.
@@ -464,24 +471,26 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * Implements that top-level image task submission short-cut that is defined
      * by the ImageConsumer interface.
      *
-     * @param img Image required by the task
-     * @param executor Executor to run events and image closes, in case of
-     *            control leakage
-     * @param processingFlags Magical bit vector that specifies jobs to be run
-     *            After an image is submitted, it should never be submitted
-     *            again to the interface until all tasks and their spawned tasks
-     *            are finished.
+     * @param img                    Image required by the task
+     * @param executor               Executor to run events and image closes, in case of
+     *                               control leakage
+     * @param processingFlags        Magical bit vector that specifies jobs to be run
+     *                               After an image is submitted, it should never be submitted
+     *                               again to the interface until all tasks and their spawned tasks
+     *                               are finished.
      * @param imageProcessorListener Optional listener to automatically register
-     *            at the job task and unregister after all tasks are done
+     *                               at the job task and unregister after all tasks are done
+     *
      * @return whether receiveImage succeeded. Generally, only happens when the
-     *         image reference is null or the task set is empty.
+     * image reference is null or the task set is empty.
+     *
      * @throws InterruptedException occurs when call is set to be blocking and
-     *             is interrupted.
+     *                              is interrupted.
      */
     @Override
     public boolean receiveImage(ImageToProcess img, Executor executor,
-            Set<ImageTaskFlags> processingFlags, CaptureSession session,
-            Optional<ImageProcessorListener> imageProcessorListener)
+                                Set<ImageTaskFlags> processingFlags, CaptureSession session,
+                                Optional<ImageProcessorListener> imageProcessorListener)
             throws InterruptedException {
 
         // Uncomment for occasional debugging
@@ -507,7 +516,7 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
                 // Request job that only does JPEG compression and writes the
                 // result to disk
                 tasksToExecute.add(new TaskCompressImageToJpeg(img, executor, this, session,
-                      mByteBufferDirectPool));
+                        mByteBufferDirectPool));
             }
         }
 
@@ -532,7 +541,7 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
             };
             runnableOptional = Optional.of(unregisterRunnable);
         } else {
-            runnableOptional = Optional.<Runnable> absent();
+            runnableOptional = Optional.<Runnable>absent();
         }
 
         if (receiveImage(img, tasksToExecute,
@@ -561,9 +570,9 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
     }
 
     public TaskCompressImageToJpeg createTaskCompressImageToJpeg(ImageToProcess image,
-            Executor executor, ImageBackend imageBackend, CaptureSession session) {
+                                                                 Executor executor, ImageBackend imageBackend, CaptureSession session) {
         return new TaskCompressImageToJpeg(image, executor, imageBackend, session,
-              mByteBufferDirectPool);
+                mByteBufferDirectPool);
     }
 
     /**
@@ -584,7 +593,7 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * @param tasks The set of ImageContainer tasks to be run on ImageBackend
      */
     protected void initializeTaskDone(Set<TaskImageContainer> tasks,
-            Optional<Runnable> runnableWhenDone) {
+                                      Optional<Runnable> runnableWhenDone) {
         Set<CaptureSession> sessionSet = new HashSet<>();
         Map<CaptureSession, Integer> sessionTaskCount = new HashMap<>();
 
@@ -607,7 +616,7 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
                 protocol.setCount(sessionTaskCount.get(captureSession));
                 final ImageShadowTask shadowTask;
                 shadowTask = new ImageShadowTask(protocol, captureSession,
-                            runnableWhenDone);
+                        runnableWhenDone);
                 mShadowTaskMap.put(captureSession, shadowTask);
                 mProcessingTaskConsumer.enqueueTask(shadowTask);
             }
@@ -640,7 +649,8 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * when a task completes its processing in ImageBackend.
      *
      * @param imageShadowTask The ImageShadow task that contains the blocking
-     *            semaphore.
+     *                        semaphore.
+     *
      * @return whether all the tasks associated with an ImageShadowTask are done
      */
     protected boolean decrementTaskDone(ImageShadowTask imageShadowTask) {
@@ -695,10 +705,10 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * Initializes the semaphore count for the image
      *
      * @return The protocol object that keeps tracks of the image reference
-     *         count and actions to be taken on release.
+     * count and actions to be taken on release.
      */
     protected ImageReleaseProtocol setSemaphoreReferenceCount(ImageToProcess img, int count,
-            boolean blockUntilRelease, boolean closeOnRelease) throws RuntimeException {
+                                                              boolean blockUntilRelease, boolean closeOnRelease) throws RuntimeException {
         synchronized (mImageSemaphoreMap) {
             if (mImageSemaphoreMap.get(img) != null) {
                 throw new RuntimeException(
@@ -727,10 +737,11 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * via appendTasks by internal tasks. Otherwise, image references could get
      * out of whack.
      *
-     * @param img The Image associated with the set of tasks running on it.
+     * @param img   The Image associated with the set of tasks running on it.
      * @param count The number of tasks to be added
+     *
      * @throws RuntimeException Indicates image Closing Bookkeeping is screwed
-     *             up.
+     *                          up.
      */
     protected void incrementSemaphoreReferenceCount(ImageToProcess img, int count)
             throws RuntimeException {
@@ -752,9 +763,9 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
      * Close an Image with a executor if it's available and does the proper
      * booking keeping on the object.
      *
-     * @param img Image to be closed
+     * @param img      Image to be closed
      * @param executor Executor to be used, if executor is null, the close is
-     *            run on the task thread
+     *                 run on the task thread
      */
     private void closeImageExecutorSafe(final ImageToProcess img, Executor executor) {
         Runnable closeTask = new Runnable() {
@@ -809,13 +820,13 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
         /**
          * Constructor
          *
-         * @param imageBackend ImageBackend that the task is running on
+         * @param imageBackend    ImageBackend that the task is running on
          * @param imageShadowTask ImageShadowTask that is blocking on the
-         *            completion of the task
-         * @param wrappedTask The task to be run w/o instrumentation
+         *                        completion of the task
+         * @param wrappedTask     The task to be run w/o instrumentation
          */
         public TaskDoneWrapper(ImageBackend imageBackend, ImageShadowTask imageShadowTask,
-                TaskImageContainer wrappedTask) {
+                               TaskImageContainer wrappedTask) {
             mImageBackend = imageBackend;
             mImageShadowTask = imageShadowTask;
             mWrappedTask = wrappedTask;
@@ -826,7 +837,11 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
          */
         @Override
         public void run() {
-            mWrappedTask.run();
+            try {
+                mWrappedTask.run();
+            } catch (Exception e) {
+                XLog.e(XLog.getTag(), XLog.TAG_GU + e.getMessage());
+            }
             // Decrement count
             if (mImageBackend.decrementTaskDone(mImageShadowTask)) {
                 // If you're the last one...
