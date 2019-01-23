@@ -1,0 +1,12 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gradle/
+.idea/
+Camera2-mx.iml
+app/build/
+cameralibrary/build/
+gradle/
+gradlew
+gradlew.bat
+local.properties
+app/app.iml
+cameralibrary/cameralibrary.iml
