@@ -55,14 +55,15 @@ final class FlashBasedPhotoCommand implements ImageCaptureCommand {
             CameraCaptureSessionClosedException,
             ResourceAcquisitionFailedException {
         OneCamera.PhotoCaptureParameters.Flash flashMode = mFlashMode.get();
-        if (flashMode == OneCamera.PhotoCaptureParameters.Flash.ON) {
+        if (flashMode == OneCamera.PhotoCaptureParameters.Flash.ON) {// 闪光灯开
             mLog.i("running flash-on command: " + mFlashOnCommand);
             mFlashOnCommand.run(imageExposeCallback, imageSaver);
-        } else if (flashMode == OneCamera.PhotoCaptureParameters.Flash.AUTO) {
+        } else if (flashMode == OneCamera.PhotoCaptureParameters.Flash.AUTO) {// 闪光灯自动
             mLog.i("running flash-auto command: " + mFlashAutoCommand);
             mFlashAutoCommand.run(imageExposeCallback, imageSaver);
-        } else {
+        } else {// 闪光灯关
             mLog.i("running flash-off command: " + mFlashOffCommand);
+            // ZslImageCaptureCommand
             mFlashOffCommand.run(imageExposeCallback, imageSaver);
         }
     }

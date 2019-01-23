@@ -18,6 +18,7 @@ package com.android.camera.one.v2.imagesaver;
 
 import com.android.camera.one.v2.camera2proxy.ImageProxy;
 import com.android.camera.one.v2.camera2proxy.TotalCaptureResultProxy;
+import com.codemx.camera2.XLog;
 import com.google.common.base.Optional;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -52,7 +53,7 @@ public class MostRecentImageSaver implements ImageSaver {
 
     @Override
     public void addFullSizeImage(ImageProxy imageProxy,
-            ListenableFuture<TotalCaptureResultProxy> metadata) {
+                                 ListenableFuture<TotalCaptureResultProxy> metadata) {
         mFullSizeImages.put(imageProxy.getTimestamp(), new MetadataImage(imageProxy, metadata));
         closeOlderImages();
     }
@@ -76,6 +77,8 @@ public class MostRecentImageSaver implements ImageSaver {
                 mThumbnails.remove(thumbnail.getTimestamp());
             }
 
+            XLog.i(XLog.getTag(), XLog.TAG_GU + mSingleImageSaver);
+            // YuvImageBackendImageSaver.ImageSaverImpl
             mSingleImageSaver.saveAndCloseImage(fullSize, Optional.fromNullable(thumbnail),
                     fullSize.getMetadata());
         } finally {

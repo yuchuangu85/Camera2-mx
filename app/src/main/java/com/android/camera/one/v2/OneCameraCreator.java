@@ -41,6 +41,7 @@ import com.android.camera.one.v2.imagesaver.YuvImageBackendImageSaver;
 import com.android.camera.one.v2.photo.ImageRotationCalculator;
 import com.android.camera.processing.ProcessingServiceManager;
 import com.android.camera.processing.imagebackend.ImageBackend;
+import com.codemx.camera2.XLog;
 
 public class OneCameraCreator {
     private static Log.Tag TAG = new Log.Tag("OneCamCreator");
@@ -76,6 +77,7 @@ public class OneCameraCreator {
 
         // Depending on the support level of the camera, choose the right
         // configuration.
+        XLog.e(XLog.getTag(),XLog.TAG_GU + captureSupportLevel.name());
         switch (captureSupportLevel) {
             case LIMITED_JPEG:
             case LEGACY_JPEG:

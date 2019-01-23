@@ -34,6 +34,7 @@ import com.android.camera.debug.Log;
 import com.android.camera.exif.ExifInterface;
 import com.android.camera.util.ApiHelper;
 import com.android.camera.util.Size;
+import com.codemx.camera2.XLog;
 import com.google.common.base.Optional;
 
 import java.io.File;
@@ -517,7 +518,10 @@ public class Storage {
         }
 
         File dir = new File(DIRECTORY);
-        dir.mkdirs();
+        XLog.e(XLog.getTag(),XLog.TAG_GU + SD);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
         if (!dir.isDirectory() || !dir.canWrite()) {
             return UNAVAILABLE;
         }

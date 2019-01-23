@@ -35,6 +35,7 @@ import com.android.camera.session.CaptureSession;
 import com.android.camera.util.ExifUtil;
 import com.android.camera.util.JpegUtilNative;
 import com.android.camera.util.Size;
+import com.codemx.camera2.XLog;
 import com.google.common.base.Optional;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -120,8 +121,9 @@ public class TaskCompressImageToJpeg extends TaskJpegEncode {
         ExifInterface exifData = null;
         Resource<ByteBuffer> byteBufferResource = null;
 
+        XLog.i(XLog.getTag(),XLog.TAG_GU + img.proxy.getFormat());
         switch (img.proxy.getFormat()) {
-            case ImageFormat.JPEG:
+            case ImageFormat.JPEG:// 256
                 try {
                     // In the cases, we will request a zero-oriented JPEG from
                     // the HAL; the HAL may deliver its orientation in the JPEG
@@ -233,7 +235,7 @@ public class TaskCompressImageToJpeg extends TaskJpegEncode {
 
                 numBytes = compressedData.limit();
                 break;
-            case ImageFormat.YUV_420_888:
+            case ImageFormat.YUV_420_888:// 35
                 safeCrop = guaranteedSafeCrop(img.proxy, img.crop);
                 try {
                     inputImage = new TaskImage(img.rotation, img.proxy.getWidth(),
@@ -278,6 +280,8 @@ public class TaskCompressImageToJpeg extends TaskJpegEncode {
                         return;
                     }
 
+                    XLog.e(XLog.getTag(),XLog.TAG_GU + img.proxy);
+                    XLog.e(XLog.getTag(),XLog.TAG_GU + img.crop.toString());
                     // Do the actual compression here.
                     numBytes = compressJpegFromYUV420Image(
                             img.proxy, compressedData, getJpegCompressionQuality(),

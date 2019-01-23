@@ -680,6 +680,7 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
                 if (shadowTask == null) {
                     throw new IllegalStateException("Scheduling a task with a unknown session.");
                 }
+                XLog.i(XLog.getTag(),XLog.TAG_GU + task.getProcessingPriority());
                 // Before scheduling, wrap TaskImageContainer inside of the
                 // TaskDoneWrapper to add
                 // instrumentation for managing ImageShadowTasks
@@ -837,11 +838,8 @@ public class ImageBackend implements ImageConsumer, ImageTaskManager {
          */
         @Override
         public void run() {
-            try {
-                mWrappedTask.run();
-            } catch (Exception e) {
-                XLog.e(XLog.getTag(), XLog.TAG_GU + e.getMessage());
-            }
+            XLog.i(XLog.getTag(),XLog.TAG_GU + mWrappedTask);
+            mWrappedTask.run();
             // Decrement count
             if (mImageBackend.decrementTaskDone(mImageShadowTask)) {
                 // If you're the last one...

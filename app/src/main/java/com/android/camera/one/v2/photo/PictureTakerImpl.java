@@ -28,6 +28,7 @@ import com.android.camera.one.v2.commands.CameraCommandExecutor;
 import com.android.camera.one.v2.core.ResourceAcquisitionFailedException;
 import com.android.camera.one.v2.imagesaver.ImageSaver;
 import com.android.camera.session.CaptureSession;
+import com.codemx.camera2.XLog;
 
 class PictureTakerImpl implements PictureTaker {
     private final MainThread mMainExecutor;
@@ -60,6 +61,8 @@ class PictureTakerImpl implements PictureTaker {
         public void run() throws InterruptedException, CameraAccessException,
                 CameraCaptureSessionClosedException, ResourceAcquisitionFailedException {
             try {
+                XLog.d(XLog.getTag(),XLog.TAG_GU + mCommand);
+                // FlashBasedPhotoCommand
                 mCommand.run(mImageExposureCallback, mImageSaver);
             } catch (Exception e) {
                 mSession.cancel();

@@ -10,3 +10,4 @@ gradlew.bat
 local.properties
 app/app.iml
 cameralibrary/cameralibrary.iml
+.gitignore

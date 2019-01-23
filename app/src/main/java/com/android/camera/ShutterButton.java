@@ -31,9 +31,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A button designed to be used for the on-screen shutter button.
+ * A button designed to be used for the on-screen shutter(快门) button.
  * It's currently an {@code ImageView} that can call a delegate when the
  * pressed state changes.
+ *
+ * 快门按钮，拍照调用
  */
 public class ShutterButton extends ImageView {
     private static final Log.Tag TAG = new Log.Tag("ShutterButton");
