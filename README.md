@@ -8,10 +8,9 @@
 
 ## 依赖
 libjpeg.so 
-源码地址：http://www.ijg.org/files/
-编译地址：https://github.com/yuchuangu85/NativeJpeg
+* 源码地址：http://www.ijg.org/files/
+* 编译地址：https://github.com/yuchuangu85/NativeJpeg
 
 Camera2可以编译版本:
-源码地址：https://github.com/yuchuangu85/Camera2
-
-迁移教程：http://geecall.com/article/1546670286707
+* 源码地址：https://github.com/yuchuangu85/Camera2
+* 迁移教程：http://geecall.com/article/1546670286707
