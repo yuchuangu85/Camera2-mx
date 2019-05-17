@@ -1,4 +1,4 @@
-# Camare2-mx
+<h1 align="center">Camare2-mx</h1>
 基于google原生Camare2（android-9.0.0_r30）源码进行修改。
 
 ## 分支
